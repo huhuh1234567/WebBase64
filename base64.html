@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>base64</title>
+	<script type="text/javascript" src="base64.js"></script>
+</head>
+<body>
+<span>数据文件：</span>
+<input id="file" type="file">
+<textarea id="text" cols="80" rows="20" spellcheck="false" style="display: block;"></textarea>
+<input id="encode" type="button" value="ENCODE">
+<input id="decode" type="button" value="DECODE">
+<script>
+	(function(){
+
+		var createObjectURL = window.createObjectURL||window.URL&&window.URL.createObjectURL||window.webkitURL&&window.webkitURL.createObjectURL;
+
+		var file = document.getElementById("file");
+		var encode = document.getElementById("encode");
+		var decode = document.getElementById("decode");
+		var text = document.getElementById("text");
+
+		encode.onclick = function(e){
+			var reader = new FileReader();
+			reader.onload = function(){
+				text.value = Base64.encode(new Uint8Array(reader.result));
+			};
+			reader.readAsArrayBuffer(file.files[0]);
+		};
+
+		decode.onclick = function(e){
+			location.href = createObjectURL(new Blob([Base64.decode(text.value)],{type:"application/octet-stream"}));
+		};
+	})();
+</script>
+</body>
+</html>
