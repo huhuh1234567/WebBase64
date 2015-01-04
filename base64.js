@@ -1,11 +1,10 @@
 /**
  * author:	胡剑青 huhuh1234567@126.com
  * date:	2014.12
+ * vm:		node | web
  */
 
 (function(){
-
-	window.Base64 = window.Base64||{};
 
 	var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 	var code = [];
@@ -13,7 +12,7 @@
 		code[alphabet.charCodeAt(index)] = index;
 	}
 
-	Base64.decode = function(str){
+	function decode(str){
 		str = str.replace( /[^A-Za-z0-9\+\/\=]/g, "" );
 		var stringLength = str.length;
 		while(str.charAt(stringLength-1)==="="){
@@ -26,9 +25,9 @@
 			stringOffset+3<stringLength&&(result[byteOffset+2] = ((code[str.charCodeAt(stringOffset+2)]&0x03)<<6)|((code[str.charCodeAt(stringOffset+3)]&0x3F)<<0));
 		}
 		return result;
-	};
+	}
 
-	Base64.encode = function(arr){
+	function encode(arr){
 		var byteLength = arr.byteLength;
 		var result = "";
 		for(var byteOffset = 0; byteOffset<byteLength; byteOffset += 3){
@@ -38,5 +37,9 @@
 			result += byteOffset+2<byteLength? alphabet.charAt((arr[byteOffset+2]&0x3F)<<0):"=";
 		}
 		return result;
-	};
+	}
+
+	exports.decode = decode;
+	exports.encode = encode;
+
 })();
